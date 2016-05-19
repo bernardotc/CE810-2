@@ -21,7 +21,10 @@ public class ArrowsController implements BattleController, KeyListener {
             new Action(1.0,0.0,false),
             new Action(1.0,-1.0,false),
             new Action(1.0,1.0,false),
-            new Action(0.0,0.0,true)
+            new Action(0.0,0.0,true),
+            new Action(-1.0,0.0,false),
+            new Action(-1.0,-1.0,false),
+            new Action(-1.0,1.0,false)
     };
 
     Action curAction = ActionMap[0];
@@ -30,6 +33,7 @@ public class ArrowsController implements BattleController, KeyListener {
      * Indicates if the thrust is pressed.
      */
     private boolean m_thrust;
+    private boolean m_backTrust;
 
     /**
      * Indicates if the turn must be applied.
@@ -45,6 +49,7 @@ public class ArrowsController implements BattleController, KeyListener {
     {
         m_turn = 0;
         m_thrust = false;
+        m_backTrust = false;
         m_use = false;
     }
 
@@ -70,6 +75,10 @@ public class ArrowsController implements BattleController, KeyListener {
             if(m_turn == -1) return ActionMap[4];
             if(m_turn == 1) return ActionMap[5];
             return ActionMap[3];
+        } else if(m_backTrust) {
+            if(m_turn == -1) return ActionMap[8];
+            if(m_turn == -1) return ActionMap[9];
+            return ActionMap[7];
         }
 
         //No thrust actions.
@@ -99,6 +108,10 @@ public class ArrowsController implements BattleController, KeyListener {
                 m_turn = 1;
                 break;
 
+            case KeyEvent.VK_DOWN:
+                m_backTrust = true;
+                break;
+
             case KeyEvent.VK_SPACE:
                 m_use = true;
                 break;
@@ -117,6 +130,9 @@ public class ArrowsController implements BattleController, KeyListener {
         }
         if (key == KeyEvent.VK_RIGHT) {
             m_turn = 0;
+        }
+        if (key == KeyEvent.VK_DOWN) {
+            m_backTrust = false;
         }
         if (key == KeyEvent.VK_SPACE) {
             m_use = false;

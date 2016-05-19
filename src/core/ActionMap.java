@@ -16,7 +16,10 @@ public class ActionMap
             new Action(1.0,0.0,false),
             new Action(1.0,-1.0,false),
             new Action(1.0,1.0,false),
-            new Action(0.0,0.0,true)
+            new Action(0.0,0.0,true),
+            new Action(-1.0,0.0,false),
+            new Action(-1.0,1.0,false),
+            new Action(-1.0,-1.0,false)
     };
 
     /**

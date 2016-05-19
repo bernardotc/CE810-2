@@ -33,6 +33,7 @@ public class NeuroShip extends GameObject {
     public static double maxRelease = 10;
     Color color = Color.white;
     boolean thrusting = false;
+    boolean backThrusting = false;
 
     static double gravity = 0.0;
 
@@ -104,8 +105,8 @@ public class NeuroShip extends GameObject {
             return max;
         }
 
-        if (v < min) {
-            return min;
+        if (v < -max) {
+            return -max;
         }
 
         return v;
@@ -119,10 +120,13 @@ public class NeuroShip extends GameObject {
 
         // action.thrust = 1;
 
-        if (action.thrust > 0) {
+        if (action.thrust >= 1) {
             thrusting = true;
-        } else {
+        } else if (action.thrust == 0) {
             thrusting = false;
+            backThrusting = false;
+        } else if (action.thrust <= -1) {
+            backThrusting = true;
         }
 
         //prevent people from cheating

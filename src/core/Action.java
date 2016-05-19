@@ -16,7 +16,7 @@ public class Action {
     /**
      * Create a new action to be executed by the controller
      *
-     * @param thrust 1 is full thrust, 0 is nothing
+     * @param thrust 1 is full thrust, 0 is nothing, -1 is full back trust
      * @param turn 1 is clockwise, -1 is anticlockwise, 0 is don't turn
      * @param shoot true is fire, false is don't fire
      */
