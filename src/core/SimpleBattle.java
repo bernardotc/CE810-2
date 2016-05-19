@@ -334,9 +334,13 @@ public class SimpleBattle {
         {
             Vector2d dir = Vector2d.subtract(ss2.s, ss1.s);
             dir.normalise();
-            s2.addRepulsiveForce( 0.5f * MIN_SHOOT_RANGE, MIN_SHOOT_RANGE, dir);
+            s2.addRepulsiveForce(0.5f * MIN_SHOOT_RANGE, MIN_SHOOT_RANGE, dir);
             dir.multiply(-1);
-            s1.addRepulsiveForce( 0.5f * MIN_SHOOT_RANGE, MIN_SHOOT_RANGE, dir);
+            s1.addRepulsiveForce(0.5f * MIN_SHOOT_RANGE, MIN_SHOOT_RANGE, dir);
+
+            this.stats.get(s1.getId()).life--;
+            this.stats.get(s2.getId()).life--;
+
         }
 
         updateScores();
@@ -481,6 +485,9 @@ public class SimpleBattle {
                     if(ob instanceof NeuroShip) {
                         //System.out.println("ship " + ob.getId() + " playerId " + playerId);
                         if (overlap(actor, ob)) {
+                            //actor.hit();
+                            //ob.hit();
+                            System.out.println("Players hit");
                             this.stats.get(playerId).life=0;
                             this.stats.get(1-playerId).life=0;
                             //System.out.println(this.stats.get(1-playerId).life);
