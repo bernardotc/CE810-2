@@ -97,6 +97,15 @@ public class LoadAndRun {
                 GASearch.NUM_INDIVIDUALS = Integer.parseInt(prop.getProperty("RHGA_NUM_INDIVIDUALS"));
             }
         }
+        if (player1.equals("FUN") || player2.equals("FUN")) {
+            controller.funGAController.strategy.ICoevPairing.GROUP_SIZE = Integer.parseInt(prop.getProperty("FUN_GROUP_SIZE"));
+            controller.funGAController.search.CoevSearch.ELITISM = Integer.parseInt(prop.getProperty("FUN_ELITISM"));
+            controller.funGAController.search.CoevSearch.NUM_INDIVIDUALS = Integer.parseInt(prop.getProperty("FUN_NUM_INDIVIDUALS"));
+            controller.funGAController.search.Search.NUM_ACTIONS_INDIVIDUAL = Integer.parseInt(prop.getProperty("FUN_NUM_ACTIONS_INDIVIDUAL"));
+            controller.funGAController.search.Search.MACRO_ACTION_LENGTH = Integer.parseInt(prop.getProperty("FUN_MACRO_ACTION_LENGTH"));
+            controller.funGAController.strategy.TournamentSelection.TOURNAMENT_SIZE = Integer.parseInt(prop.getProperty("FUN_TOURNAMENT_SIZE"));
+            controller.funGAController.strategy.PMutation.MUT_PROB = Double.parseDouble(prop.getProperty("FUN_MUT_PROB"));
+        }
     }
 
     private void runBattleGame() {
