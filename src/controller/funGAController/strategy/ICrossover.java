@@ -7,5 +7,5 @@ import controller.funGAController.search.GAIndividual;
  */
 public interface ICrossover
 {
-    GAIndividual uniformCross(GAIndividual parentA, GAIndividual parentB);
+    GAIndividual uniformCross(GAIndividual[] parents);
 }

@@ -7,5 +7,5 @@ import controller.funGAController.search.GAIndividual;
  */
 public interface ISelection
 {
-    GAIndividual getParent(GAIndividual[] pop, GAIndividual first);
+    GAIndividual getParent(GAIndividual[] pop, GAIndividual[] parents);
 }

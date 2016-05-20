@@ -18,7 +18,10 @@ public class UniformCrossover implements ICrossover {
     }
 
     @Override
-    public GAIndividual uniformCross(GAIndividual parentA, GAIndividual parentB) {
+    public GAIndividual uniformCross(GAIndividual[] parents) {
+        GAIndividual parentA, parentB;
+        parentA = parents[0];
+        parentB = parents[1];
 
         int[] newInd = new int[parentA.m_genome.length];
 

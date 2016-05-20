@@ -25,7 +25,7 @@ public class TournamentSelection implements ISelection
         this.rnd = rnd;
     }
 
-    public GAIndividual getParent(GAIndividual[] pop, GAIndividual first) {
+    public GAIndividual getParent(GAIndividual[] pop, GAIndividual[] parents) {
         GAIndividual best = null;
         int[] tour = new int[TOURNAMENT_SIZE];
         for (int i = 0; i < TOURNAMENT_SIZE; ++i)
@@ -34,7 +34,7 @@ public class TournamentSelection implements ISelection
         int i = 0;
         while (tour[TOURNAMENT_SIZE - 1] == -1) {
             int part = (int) (rnd.nextFloat() * pop.length);
-            boolean valid = pop[part] != first;  //Check it is not the same selected first.
+            boolean valid = pop[part] != parents[0] && pop[part] != parents[1];;  //Check it is not the same selected first.
             for (int k = 0; valid && k < i; ++k) {
                 valid = (part != tour[k]);                 //Check it is not in the tournament already.
             }

@@ -1,5 +1,7 @@
 package controller.funGAController.strategy;
 
+import controller.funGAController.search.GAIndividual;
+
 import java.util.Random;
 
 /**
@@ -14,7 +16,11 @@ public class IVCrossover implements ICrossover {
     }
 
     @Override
-    public controller.funGAController.search.GAIndividual uniformCross(controller.funGAController.search.GAIndividual parentA, controller.funGAController.search.GAIndividual parentB) {
+    public GAIndividual uniformCross(GAIndividual[] parents) {
+
+        GAIndividual parentA, parentB;
+        parentA = parents[0];
+        parentB = parents[1];
 
         int[] newInd = new int[parentA.m_genome.length];
 
@@ -41,6 +47,6 @@ public class IVCrossover implements ICrossover {
         }
 
 
-        return new controller.funGAController.search.GAIndividual(newInd, parentA.playerID, parentA.search);
+        return new GAIndividual(newInd, parentA.playerID, parentA.search);
     }
 }

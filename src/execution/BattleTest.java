@@ -125,6 +125,13 @@ public class BattleTest {
                         new controller.funGAController.strategy.TournamentSelection(rnd1),
                         new controller.funGAController.strategy.RandomPairing(rnd1),
                         rnd1));
+            case "FUNT":
+                return new controller.funGAController.BattleEvoController(new controller.funGAController.search.CoevSearch(
+                        new controller.funGAController.strategy.TripleParentCrossover(rnd1),
+                        new controller.funGAController.strategy.PMutation(rnd1),
+                        new controller.funGAController.strategy.TournamentSelection(rnd1),
+                        new controller.funGAController.strategy.RandomPairing(rnd1),
+                        rnd1));
         }
 
         return new ArrowsController();

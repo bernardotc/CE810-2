@@ -158,9 +158,9 @@ public class GASearch extends Search {
 
     private GAIndividual breed()
     {
-        GAIndividual gai1 = sel.getParent(m_individuals, null);        //First parent.
-        GAIndividual gai2 = sel.getParent(m_individuals, gai1);        //Second parent.
-        return cross.uniformCross(gai1, gai2);
+        GAIndividual gai1 = sel.getParent(m_individuals, new GAIndividual[]{null, null});        //First parent.
+        GAIndividual gai2 = sel.getParent(m_individuals,  new GAIndividual[]{gai1, null});        //Second parent.
+        return cross.uniformCross( new GAIndividual[]{gai1, gai2});
     }
 
     /**

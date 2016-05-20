@@ -221,9 +221,10 @@ public class CoevSearch extends Search {
 
     private GAIndividual breed(GAIndividual[] pop)
     {
-        GAIndividual gai1 = sel.getParent(pop, null);        //First parent.
-        GAIndividual gai2 = sel.getParent(pop, gai1);        //Second parent.
-        return cross.uniformCross(gai1, gai2);
+        GAIndividual gai1 = sel.getParent(pop, new GAIndividual[]{null, null});        //First parent.
+        GAIndividual gai2 = sel.getParent(pop, new GAIndividual[]{gai1, null}); // Second parent
+        GAIndividual gai3 = sel.getParent(pop, new GAIndividual[]{gai1, gai2}); //Third parent.
+        return cross.uniformCross(new GAIndividual[]{gai1, gai2, gai3});
     }
 
     /**
