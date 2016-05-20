@@ -40,6 +40,7 @@ public class IVCrossover implements ICrossover {
             }
         }
 
+
         return new controller.funGAController.search.GAIndividual(newInd, parentA.playerID, parentA.search);
     }
 }

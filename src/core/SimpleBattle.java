@@ -278,14 +278,14 @@ public class SimpleBattle {
         // and fire any missiles as necessary
         if (a1.shoot) {
             //fireMissile(s1.s, s1.d, 0);
-            fireMissiles(s1.s, s1.d, 0, 45);
+            fireMissiles(s1.s, s1.d, 0, 170);
         } else {
             stats.get(0).cooldown--;
         }
 
         if (a2.shoot) {
             //fireMissile(s2.s, s2.d, 1);
-            fireMissiles(s2.s, s2.d, 1, 45);
+            fireMissiles(s2.s, s2.d, 1, 170);
         } else {
             stats.get(1).cooldown--;
         }
