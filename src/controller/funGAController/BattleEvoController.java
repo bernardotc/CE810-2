@@ -77,7 +77,7 @@ public class BattleEvoController implements BattleController {
             //First cycle of a match is special, we need to execute any action to start looking for the next one.
             m_lastMacroAction = 0;
             nextMacroAction = m_lastMacroAction;
-            m_resetRS = true;
+            //m_resetRS = true;
             m_currentMacroAction = Search.MACRO_ACTION_LENGTH-1;
         }else
         {
@@ -103,7 +103,7 @@ public class BattleEvoController implements BattleController {
                 //keep searching and retrieve the action suggested by the random search engine.
                 int suggestedAction = m_search.run(game, elapsedTimer);
                 //now it's time to execute this action. Also, in next cycle, we need to reset the search
-                m_resetRS = true;
+                //m_resetRS = true;
                 if(suggestedAction != -1)
                     m_lastMacroAction = suggestedAction;
 

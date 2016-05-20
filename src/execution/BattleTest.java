@@ -53,8 +53,26 @@ public class BattleTest {
             System.arraycopy(res, 0, results[i], 0, MAX_TICKS_GAME*3);
         }
 
+        int p1Wins, p1Ticks, p1Life, p1fFire, p1Points;
+        int p2Wins, p2Ticks, p2Life, p2fFire, p2Points;
+        p1Wins = p1Ticks = p1Life = p1fFire = p1Points = p2Wins = p2Ticks =  p2Life = p2fFire = p2Points = 0;
+        for (int x = 0; x < NUM_GAMES_TO_PLAY; x++) {
+            p1Wins += SimpleBattle.p1Statistics[x][0];
+            p1Ticks += SimpleBattle.p1Statistics[x][1];
+            p1Life += SimpleBattle.p1Statistics[x][2];
+            p1fFire += SimpleBattle.p1Statistics[x][3];
+            p1Points += SimpleBattle.p1Statistics[x][4];
+
+            p2Wins += SimpleBattle.p2Statistics[x][0];
+            p2Ticks += SimpleBattle.p2Statistics[x][1];
+            p2Life += SimpleBattle.p2Statistics[x][2];
+            p2fFire += SimpleBattle.p2Statistics[x][3];
+            p2Points += SimpleBattle.p2Statistics[x][4];
+        }
+        System.out.println("Total wins player 1 = " + p1Wins + " " + p1Wins/(double)BattleTest.NUM_GAMES_TO_PLAY + "% / " + p1Ticks / NUM_GAMES_TO_PLAY + " / " + p1Life / (double) NUM_GAMES_TO_PLAY + " / " + p1fFire / (double) NUM_GAMES_TO_PLAY + " / " + p1Points / (double) NUM_GAMES_TO_PLAY);
+        System.out.println("Total wins player 2 = " + p2Wins + " " + p2Wins/(double)BattleTest.NUM_GAMES_TO_PLAY + "% / " + p2Ticks / NUM_GAMES_TO_PLAY + " / " + p2Life / (double) NUM_GAMES_TO_PLAY + " / " + p2fFire / (double) NUM_GAMES_TO_PLAY + " / " + p2Points / (double) NUM_GAMES_TO_PLAY);
         System.out.println("Done.");
-        dump(results, filename);
+        //dump(results, filename);
     }
 
     private static void dump(double[][] results, String filename)
@@ -128,6 +146,13 @@ public class BattleTest {
             case "FUNT":
                 return new controller.funGAController.BattleEvoController(new controller.funGAController.search.CoevSearch(
                         new controller.funGAController.strategy.TripleParentCrossover(rnd1),
+                        new controller.funGAController.strategy.PMutation(rnd1),
+                        new controller.funGAController.strategy.TournamentSelection(rnd1),
+                        new controller.funGAController.strategy.RandomPairing(rnd1),
+                        rnd1));
+            case "FUNUNIFORM":
+                return new controller.funGAController.BattleEvoController(new controller.funGAController.search.CoevSearch(
+                        new controller.funGAController.strategy.UniformCrossover(rnd1),
                         new controller.funGAController.strategy.PMutation(rnd1),
                         new controller.funGAController.strategy.TournamentSelection(rnd1),
                         new controller.funGAController.strategy.RandomPairing(rnd1),

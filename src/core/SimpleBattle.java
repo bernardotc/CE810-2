@@ -42,6 +42,9 @@ public class SimpleBattle {
     public static int LIFE = 3;
     public static double MIN_SHOOT_RANGE = 60;
     public static double maxShootRange = 10000;
+    public static int[][] p1Statistics = new int[BattleTest.NUM_GAMES_TO_PLAY][5];
+    public static int[][] p2Statistics = new int[BattleTest.NUM_GAMES_TO_PLAY][5];;
+    public static int battles = 0;
 
     public static int MISSILE_COST = 0;
 
@@ -130,17 +133,45 @@ public class SimpleBattle {
 
         //update();
         if(this.winner == -1) {
-            if (stats.get(0).nPoints > stats.get(1).nPoints)
+            if (stats.get(0).nPoints > stats.get(1).nPoints) {
                 this.winner = 0;
-            else if (stats.get(0).nPoints < stats.get(1).nPoints)
+            }
+            else if (stats.get(0).nPoints < stats.get(1).nPoints) {
                 this.winner = 1;
+            }
         }
         if(this.winner!=-1) {
-            System.out.println("Player " + (this.winner+1) + " wins at " + currentTick + " with life " + stats.get(this.winner).life + " fired " + stats.get(this.winner).getMissilesFired() + " points " + stats.get(this.winner).nPoints);
-            System.out.println("Player " + (2-this.winner) + " loss at " + currentTick + " with life " + stats.get(1-this.winner).life  + " fired " + stats.get(1-this.winner).getMissilesFired() + " points " + stats.get(1-this.winner).nPoints);
+            if (this.winner == 0) {
+                p1Statistics[battles][0] = 1;
+                p1Statistics[battles][1] = currentTick;
+                p1Statistics[battles][2] = stats.get(this.winner).life;
+                p1Statistics[battles][3] = stats.get(this.winner).getMissilesFired();
+                p1Statistics[battles][4] = stats.get(this.winner).nPoints;
+                p2Statistics[battles][0] = 0;
+                p2Statistics[battles][1] = currentTick;
+                p2Statistics[battles][2] = stats.get(1-this.winner).life;
+                p2Statistics[battles][3] = stats.get(1-this.winner).getMissilesFired();
+                p2Statistics[battles][4] = stats.get(1-this.winner).nPoints;
+            }
+            else {
+                p2Statistics[battles][0] = 1;
+                p2Statistics[battles][1] = currentTick;
+                p2Statistics[battles][2] = stats.get(this.winner).life;
+                p2Statistics[battles][3] = stats.get(this.winner).getMissilesFired();
+                p2Statistics[battles][4] = stats.get(this.winner).nPoints;
+                p1Statistics[battles][0] = 0;
+                p1Statistics[battles][1] = currentTick;
+                p1Statistics[battles][2] = stats.get(1-this.winner).life;
+                p1Statistics[battles][3] = stats.get(1-this.winner).getMissilesFired();
+                p1Statistics[battles][4] = stats.get(1-this.winner).nPoints;
+            }
+            battles++;
+            System.out.println("GAME: " + battles + " Player " + (this.winner+1) + " wins at " + currentTick + " with life " + stats.get(this.winner).life + " fired " + stats.get(this.winner).getMissilesFired() + " points " + stats.get(this.winner).nPoints);
+            System.out.println("GAME: " + battles + " Player " + (2-this.winner) + " loss at " + currentTick + " with life " + stats.get(1-this.winner).life  + " fired " + stats.get(1-this.winner).getMissilesFired() + " points " + stats.get(1-this.winner).nPoints);
         } else {
-            System.out.println("Player 1 draws at " + currentTick + " with life " + stats.get(0).life + " with life " + stats.get(0).life + " fired " + stats.get(0).getMissilesFired() + " points " + stats.get(0).nPoints);
-            System.out.println("Player 2 draws at " + currentTick + " with life " + stats.get(1).life + " with life " + stats.get(1).life + " fired " + stats.get(1).getMissilesFired() + " points " + stats.get(1).nPoints);
+            battles++;
+            System.out.println("GAME: " + battles + " Player 1 draws at " + currentTick + " with life " + stats.get(0).life + " with life " + stats.get(0).life + " fired " + stats.get(0).getMissilesFired() + " points " + stats.get(0).nPoints);
+            System.out.println("GAME: " + battles + " Player 2 draws at " + currentTick + " with life " + stats.get(1).life + " with life " + stats.get(1).life + " fired " + stats.get(1).getMissilesFired() + " points " + stats.get(1).nPoints);
         }
 
         if (p1 instanceof KeyListener) {

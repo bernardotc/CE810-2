@@ -38,9 +38,9 @@ public class CoevSearch extends Search {
     public static int NUM_INDIVIDUALS = 10;
 
 
-    public GAIndividual[] m_individuals;
+    public GAIndividual[] m_individuals = null;
 
-    public GAIndividual[] m_individualsOpp;
+    public GAIndividual[] m_individualsOpp = null;
 
     public int numEvals;
 
@@ -72,25 +72,29 @@ public class CoevSearch extends Search {
     @Override
     public void init(SimpleBattle gameState, int _playerID)
     {
+
         hitMapOwn = new int[Constants.width][Constants.height];
         hitMapOpp = new int[Constants.width][Constants.height];
 
-        this.numEvals = 0;
-        m_individuals = new GAIndividual[NUM_INDIVIDUALS];
-        m_individualsOpp = new GAIndividual[NUM_INDIVIDUALS];
-        this.playerID = _playerID;
-        int opId = 0;
+        if (m_individuals == null) {
+            //System.out.println("OVI OVI OVI");
+            this.numEvals = 0;
+            m_individuals = new GAIndividual[NUM_INDIVIDUALS];
+            m_individualsOpp = new GAIndividual[NUM_INDIVIDUALS];
+            this.playerID = _playerID;
+            int opId = 0;
 
-        if (this.playerID == 0) {
-            opId = 1;
-        }
+            if (this.playerID == 0) {
+                opId = 1;
+            }
 
-        for(int i = 0; i < NUM_INDIVIDUALS; ++i) {
-            m_individuals[i] = new GAIndividual(Search.NUM_ACTIONS_INDIVIDUAL, playerID, this);
-            m_individuals[i].randomize(m_rnd, ActionMap.ActionMap.length);
+            for (int i = 0; i < NUM_INDIVIDUALS; ++i) {
+                m_individuals[i] = new GAIndividual(Search.NUM_ACTIONS_INDIVIDUAL, playerID, this);
+                m_individuals[i].randomize(m_rnd, ActionMap.ActionMap.length);
 
-            m_individualsOpp[i] = new GAIndividual(Search.NUM_ACTIONS_INDIVIDUAL, opId, null);
-            m_individualsOpp[i].randomize(m_rnd, ActionMap.ActionMap.length);
+                m_individualsOpp[i] = new GAIndividual(Search.NUM_ACTIONS_INDIVIDUAL, opId, null);
+                m_individualsOpp[i].randomize(m_rnd, ActionMap.ActionMap.length);
+            }
         }
 
         // check that we have at least enough time for initialisation           
@@ -215,8 +219,13 @@ public class CoevSearch extends Search {
 
         //System.out.print(a_gameState.currentTick + " ");
         //m_individuals[0].print();
+        int action = m_individuals[0].m_genome[0];
 
-        return m_individuals[0].m_genome[0];
+        prepareIndividualsForNextRun(m_individuals);
+        prepareIndividualsForNextRun(m_individualsOpp);
+        //printPopulation(m_individuals);
+
+        return action;
     }
 
     private GAIndividual breed(GAIndividual[] pop)
@@ -242,13 +251,21 @@ public class CoevSearch extends Search {
      */
     private void printPopulation(GAIndividual[] pop)
     {
+        System.out.println("\nPopulation:");
         for(int i=0;i<m_individuals.length;++i)
         {
             pop[i].print();
         }
     }
 
-
-
+    private void prepareIndividualsForNextRun(GAIndividual[] population) {
+        int actions = Search.NUM_ACTIONS_INDIVIDUAL - 1;
+        for (int i = 0; i < population.length; i++) {
+            for (int x = 0; x < actions; x++) {
+                population[i].m_genome[x] = population[i].m_genome[x + 1];
+            }
+            population[i].m_genome[actions] =  m_rnd.nextInt(ActionMap.ActionMap.length);
+        }
+    }
 
 }

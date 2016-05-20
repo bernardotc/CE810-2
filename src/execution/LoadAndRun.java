@@ -97,7 +97,7 @@ public class LoadAndRun {
                 GASearch.NUM_INDIVIDUALS = Integer.parseInt(prop.getProperty("RHGA_NUM_INDIVIDUALS"));
             }
         }
-        if (player1.equals("FUN") || player2.equals("FUN")) {
+        /*if (player1.equals("FUN") || player2.equals("FUN")) {
             controller.funGAController.strategy.ICoevPairing.GROUP_SIZE = Integer.parseInt(prop.getProperty("FUN_GROUP_SIZE"));
             controller.funGAController.search.CoevSearch.ELITISM = Integer.parseInt(prop.getProperty("FUN_ELITISM"));
             controller.funGAController.search.CoevSearch.NUM_INDIVIDUALS = Integer.parseInt(prop.getProperty("FUN_NUM_INDIVIDUALS"));
@@ -105,7 +105,7 @@ public class LoadAndRun {
             controller.funGAController.search.Search.MACRO_ACTION_LENGTH = Integer.parseInt(prop.getProperty("FUN_MACRO_ACTION_LENGTH"));
             controller.funGAController.strategy.TournamentSelection.TOURNAMENT_SIZE = Integer.parseInt(prop.getProperty("FUN_TOURNAMENT_SIZE"));
             controller.funGAController.strategy.PMutation.MUT_PROB = Double.parseDouble(prop.getProperty("FUN_MUT_PROB"));
-        }
+        }*/
     }
 
     private void runBattleGame() {
@@ -122,7 +122,7 @@ public class LoadAndRun {
         if (BattleTest.VISUAL) {
             BattleTest.playOne(player1, player2);
         } else {
-            BattleTest.playN(player1, player2, "data/" + player1name + "_vs_" + player2name + "_" + BattleTest.MAX_TICKS_GAME + "x" + BattleTest.NUM_GAMES_TO_PLAY + ".txt");
+            BattleTest.playN(player1, player2, "" + player1name + "_vs_" + player2name + "_" + BattleTest.MAX_TICKS_GAME + "x" + BattleTest.NUM_GAMES_TO_PLAY + ".txt");
         }
     }
 }
