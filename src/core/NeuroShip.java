@@ -19,10 +19,10 @@ public class NeuroShip extends GameObject {
     // is thrusting
     static int[] xpThrust = {-2, 0, 2, 0};
     static int[] ypThrust = {2, 3, 2, 0};
-    public static double scale = 5;
+    public static double scale = MutableConstants.params.shipScaleSize;
 
     // define how quickly the ship will rotate
-    static double steerStep = 10 * Math.PI / 180;
+    static double steerStep = MutableConstants.params.shipSteerStep * Math.PI / 180;
     static double maxSpeed = 3;
 
     // this is the friction that makes the ship slow down over time
@@ -118,7 +118,8 @@ public class NeuroShip extends GameObject {
 
         // action has fields to specify thrust, turn and shooting
 
-        // action.thrust = 1;
+        if (MutableConstants.params.shipThrust)
+            action.thrust = 1;
 
         if (action.thrust >= 1) {
             thrusting = true;

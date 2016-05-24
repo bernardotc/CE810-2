@@ -163,7 +163,7 @@ public class StatSummary {
                 " se  = " + stdErr() + "\n" +
                 " sum  = " + sum + "\n" +
                 " sumsq  = " + sumsq + "\n" +
-                " n   = " + n;
+                " n   = " + n + "\n";
         return s;
 
     }

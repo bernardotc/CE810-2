@@ -4,6 +4,7 @@ import static core.Constants.*;
 
 import controller.BattleController;
 import controller.RenderableBattleController;
+import evogame.GameParameters;
 import execution.BattleTest;
 
 import utils.Vector2d;
@@ -14,6 +15,7 @@ import utils.ElapsedCpuTimer;
 
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Vector;
 import java.awt.*;
@@ -37,7 +39,7 @@ public class SimpleBattle {
 
     public static int nbObstacles = 5;
     public static int MISSILE_BUDGET = 10000;
-    public static int MISSILE_SPEED = 4;
+    public static double MISSILE_SPEED = MutableConstants.params.missileMinVelocity;
     public static int COOLDOWN_TIME = 4;
     public static int LIFE = 3;
     public static double MIN_SHOOT_RANGE = 60;
@@ -54,13 +56,18 @@ public class SimpleBattle {
     private static final double MIN_SCORE = -1000000;
 
     ArrayList<GameObject> objects;
-    ArrayList<PlayerStats> stats;
+    public ArrayList<PlayerStats> stats;
     //ArrayList<Wall> obstacles;
 
-    NeuroShip s1, s2;
+    public NeuroShip s1, s2;
     BattleController p1, p2;
     BattleView view;
     public int currentTick;
+
+    public int[][] ship1PositionMatrix = new int[5][5];
+    public int[][] ship2PositionMatrix = new int[5][5];
+    public String[] ship1Actions = new String[nTicks+1];
+    public String[] ship2Actions = new String[nTicks+1];
 
     double score1, score2;
     StatSummary ss1 = new StatSummary();
@@ -81,6 +88,17 @@ public class SimpleBattle {
     public SimpleBattle(boolean visible, int nTicks) {
         this(visible);
         this.nTicks = nTicks;
+        scoreRecord = new double[nTicks+1];
+        score1Record = new double[nTicks+1];
+        score2Record = new double[nTicks+1];
+    }
+
+    public SimpleBattle(boolean visible, int nTicks, GameParameters params) {
+        this(visible);
+        MutableConstants.setMutableConstants(params);
+        this.nTicks = nTicks;
+        ship1Actions = new String[nTicks+1];
+        ship2Actions = new String[nTicks+1];
         scoreRecord = new double[nTicks+1];
         score1Record = new double[nTicks+1];
         score2Record = new double[nTicks+1];
@@ -290,6 +308,49 @@ public class SimpleBattle {
         Action a2 = p2.getAction(this.clone(), 1, elapsedTimer);
         //System.out.println("Player 0 at time " + currentTick + " life="+this.stats.get(0).life+ " cooldown=" +this.stats.get(0).cooldown+" missiles="+this.stats.get(0).nMissiles);
         //System.out.println("Player 1 at time " + currentTick + " life="+this.stats.get(1).life+ " cooldown=" +this.stats.get(1).cooldown+" missiles="+this.stats.get(1).nMissiles);
+        ship1Actions[currentTick] = String.valueOf((int) a1.thrust) + "," + String.valueOf((int) a1.turn) + "," + String.valueOf(a1.shoot);
+        ship2Actions[currentTick] = String.valueOf((int) a2.thrust) + "," + String.valueOf((int) a2.turn) + "," + String.valueOf(a2.shoot);
+        //System.out.println((int) s1.s.y / (Constants.height / 5) + " / " + (int) s1.s.x / (Constants.width / 5));
+
+        int positionX;
+        int positionY;
+        int positionX2;
+        int positionY2;
+
+        if (s1.s.y > Constants.height) {
+            positionX = 0;
+        } else {
+            positionX = (int) s1.s.y / (Constants.height / 5);
+        }
+
+        if (s1.s.x > Constants.width) {
+            positionY = 0;
+        } else {
+            positionY = (int) s1.s.x / (Constants.width / 5);
+        }
+
+        if (s2.s.y > Constants.height) {
+            positionX2 = 0;
+        } else {
+            positionX2 = (int) s2.s.y / (Constants.height / 5);
+        }
+
+        if (s2.s.x > Constants.width) {
+            positionY2 = 0;
+        } else {
+            positionY2 = (int) s2.s.x / (Constants.width / 5);
+        }
+
+        if (ship1PositionMatrix[positionX][positionY] <= 0) {
+            ship1PositionMatrix[positionX][positionY] = 1;
+        } else {
+            ship1PositionMatrix[positionX][positionY] += 1;
+        }
+        if (ship2PositionMatrix[positionX2][positionY2] <= 0) {
+            ship2PositionMatrix[positionX2][positionY2] = 1;
+        } else {
+            ship2PositionMatrix[positionX2][positionY2] += 1;
+        }
         advance(a1, a2);
         // update missiles
         for (GameObject ob : objects)
@@ -309,14 +370,14 @@ public class SimpleBattle {
         // and fire any missiles as necessary
         if (a1.shoot) {
             //fireMissile(s1.s, s1.d, 0);
-            fireMissiles(s1.s, s1.d, 0, 170);
+            fireMissiles(s1.s, s1.d, 0, MutableConstants.params.missileAngle);
         } else {
             stats.get(0).cooldown--;
         }
 
         if (a2.shoot) {
             //fireMissile(s2.s, s2.d, 1);
-            fireMissiles(s2.s, s2.d, 1, 170);
+            fireMissiles(s2.s, s2.d, 1, MutableConstants.params.missileAngle);
         } else {
             stats.get(1).cooldown--;
         }
@@ -807,10 +868,10 @@ public class SimpleBattle {
         return score2;
     }
 
-    static class PlayerStats {
+    public static class PlayerStats {
         int nMissiles;
         int cooldown;
-        int life;
+        public int life;
         int nPoints;
         int totalMissiles;
 

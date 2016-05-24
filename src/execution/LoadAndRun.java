@@ -7,6 +7,8 @@ package execution;
 import controller.sampleRHEA.search.*;
 import controller.sampleRHEA.strategy.*;
 import core.SimpleBattle;
+import evogame.GameParameters;
+import evogame.TryParams;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -120,9 +122,9 @@ public class LoadAndRun {
         }
         // run the game
         if (BattleTest.VISUAL) {
-            BattleTest.playOne(player1, player2);
+            BattleTest.playOneTest(player1, player2);
         } else {
-            BattleTest.playN(player1, player2, "" + player1name + "_vs_" + player2name + "_" + BattleTest.MAX_TICKS_GAME + "x" + BattleTest.NUM_GAMES_TO_PLAY + ".txt");
+            BattleTest.playN(player1, player2, "test.txt", new GameParameters().injectValues(new TryParams()));
         }
     }
 }

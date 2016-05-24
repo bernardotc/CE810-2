@@ -17,8 +17,8 @@ public class BattleMissile extends GameObject {
         super(s, v);
         this.id = id;
         color = pColors[id];
-        ttl = missileTTL;
-        r = 4;
+        ttl = MutableConstants.params.missileTTL;
+        r = MutableConstants.params.missileRadius;
     }
 
     @Override
@@ -57,4 +57,8 @@ public class BattleMissile extends GameObject {
         return ttl + " :> " + s;
     }
 
+    public boolean wrappable() {
+        // wrap objects by default
+        return MutableConstants.params.missileWrappable;
+    }
 }
